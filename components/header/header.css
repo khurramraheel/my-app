@@ -1,0 +1,17 @@
+nav.navbar{
+    background-color: antiquewhite !important;
+}
+
+.cart-bubble{
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background: black;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    left: -2px;
+    top: -9px;
+}
