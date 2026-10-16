@@ -11,7 +11,7 @@ export default function Home() {
 
  useEffect(function(){
 
-  axios.get('https://dummyjson.com/products').then(function(resp){
+  axios.get('http://192.168.100.68:3001/api/product').then(function(resp){
 
     setProducts(resp.data.products);
 

@@ -5,11 +5,38 @@ import {createSlice} from "@reduxjs/toolkit";
 export let userPart = createSlice({
     name:'userPart',
     initialState:{
+        users:[   
+            {
+            name: 'Ali Hassan',
+            email:"ali@gmail.com",
+            password:"12345678",
+            id:1,
+        }],
         user:null,
         items:[],
     },
     // action
     reducers:{
+
+
+        removeUser(oldData, nyaData){
+
+            let userIndex = oldData.users.findIndex(function(user){
+                if(user.id == nyaData.payload){
+                    return true;
+                }
+            })
+
+            if(userIndex != -1){
+                 oldData.users.splice(userIndex, 1)
+            }
+
+        },
+        addUser(oldData, nyaData){
+
+            oldData.users.push(nyaData.payload);
+
+        },
 
         setUser(oldData, nyaData){
 
@@ -83,4 +110,4 @@ export let userPart = createSlice({
 
 export let userData = userPart.reducer
 
-export let {addName, removeName, updateName, setValue, setUser} = userPart.actions;
+export let {removeUser, addUser, addName, removeName, updateName, setValue, setUser} = userPart.actions;

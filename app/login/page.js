@@ -5,6 +5,8 @@ import {useForm} from 'react-hook-form';
 import users from '@/data';
 import { useDispatch } from 'react-redux';
 import { setUser } from '@/store/userReducer';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 
@@ -17,23 +19,34 @@ export default function Login(){
     
     let {register, handleSubmit, formState:{errors}} =  useForm();
 
-    function loginKaro(meraData){
+    async function loginKaro(meraData){
 
-          let userMilgya = users.find(function(user){
+          meraData.type = 'login';
 
-            if(user.email == meraData.abc && user.password == meraData.loginPassword){
-              return true;
-            }
 
-          });
+            let abc = await axios.post('/api/auth', meraData);
+      
 
-          if(userMilgya){
+              // let userMilgya = users.find(function(user){
 
-            dispatch( setUser(userMilgya) );
+              //   if(user.email == meraData.email && user.password == meraData.password){
+              //     return true;
+              //   }
 
-          }else{
-            alert("invalid credentials")
-          }
+              // });
+
+
+                  
+              if(abc.data){
+
+                localStorage.setItem('ckey', abc.data.token);
+
+                dispatch( setUser(abc.data.user) );
+
+              }else{
+                toast.error("Invalid credentials");
+              }
+
 
     }
 
@@ -124,8 +137,8 @@ export default function Login(){
         {/* Email input */}
         <div data-mdb-input-init="" className="form-outline mb-4">
           
-          <input {...register('abc', {required:true})} type="text" id="loginName" className="form-control" />
-         {errors.abc ? <div style={{color:'red'}}>This field is required</div> : null }
+          <input {...register('email', {required:true})} type="text" id="loginName" className="form-control" />
+         {errors.email ? <div style={{color:'red'}}>This field is required</div> : null }
 
           <label className="form-label" htmlFor="loginName">
             Email or username
@@ -133,11 +146,11 @@ export default function Login(){
         </div>
         {/* Password input */}
         <div data-mdb-input-init="" className="form-outline mb-4">
-          <input {...register('loginPassword', {required:true, minLength:8, maxLength:10})} type="password" id="loginPassword" className="form-control" />
+          <input {...register('password', {required:true})} type="password" id="loginPassword" className="form-control" />
           
-          {errors.loginPassword?.type == 'required' ? <div class='text-danger'>Required field</div> : null}
-          {errors.loginPassword?.type == 'minLength' ? <div class='text-danger'>min 8 lettes rqreuiqr</div> : null}
-          {errors.loginPassword?.type == 'maxLength' ? <div class='text-danger'>max 8 lettes rqreuiqr</div> : null}
+          {errors.password?.type == 'required' ? <div class='text-danger'>Required field</div> : null}
+          {/* {errors.password?.type == 'minLength' ? <div class='text-danger'>min 8 lettes rqreuiqr</div> : null}
+          {errors.password?.type == 'maxLength' ? <div class='text-danger'>max 8 lettes rqreuiqr</div> : null} */}
             
 
 
@@ -170,25 +183,6 @@ export default function Login(){
             {/* Simple link */}
             <a href="#!">Forgot password?</a>
           </div>
-        </div>
-        <div>
-            <select {...register('city', {validate: function(value){
-
-                if(value == 'Select City'){
-                    return false;
-                }else{
-                    return true;
-                }
-
-            }})} className='form-control'>
-                <option>Select City</option>
-                <option>Faisalabad</option>
-                <option>Gojra</option>
-                <option>Toba</option>
-                <option>Jaranawala</option>
-            </select>
-          {errors.city?.type == 'validate' ? <div class='text-danger'>Select a city please</div> : null}
-
         </div>
         {/* Submit button */}
         <button
