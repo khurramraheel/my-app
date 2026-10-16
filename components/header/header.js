@@ -50,17 +50,37 @@ export default function Header(){
 
         {user == null ? <li className="nav-item">
           <Link className="nav-link" href="/login">Login</Link>
-        </li> : <li className="nav-item">
-          <Link onClick={function(){
-            
-            dispatch( setUser(null) )
+        </li> : 
+        
+          <>
+              <li className="nav-item">
+                <Link onClick={function(){
+                  
+                  dispatch( setUser(null) );
+                  localStorage.removeItem('ckey');
 
-          }} className="nav-link" href="/login">Logout</Link>
-        </li> }
+                }} className="nav-link" href="/login">Logout</Link>
+              </li>
+              { user?.role == 'admin' && <li className="nav-item">
+                  <Link   className="nav-link" href="/users">Users</Link>
+              </li>}
+              <li className="nav-item">
+                  <Link   className="nav-link" href="/create-product">Create Product</Link>
+              </li>              
+              <li className="nav-item">
+                  <Link   className="nav-link" href="/my-products">My Products</Link>
+              </li>
+            
+        </>
+
+        
+        }
 
         <li className="nav-item">
             <Link   className="nav-link" href="/signup">Signup</Link>
         </li>
+
+        
         <li className="nav-item dropdown">
           <a
             className="nav-link dropdown-toggle"

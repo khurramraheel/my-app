@@ -9,6 +9,7 @@ import {Provider} from 'react-redux';
 import {meraStore} from '@/store/store.js';
 
   import { ToastContainer, toast } from 'react-toastify';
+import SessionCheck from "@/components/sessionCheck/sessionCheck";
 
 
 
@@ -25,6 +26,8 @@ export default function RootLayout({ children }) {
 
           
       <Provider store={meraStore}>
+
+        {/* <SessionCheck></SessionCheck> */}
 
           <Header></Header>
           
